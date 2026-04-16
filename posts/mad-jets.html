@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magnetically Arrested Disks and the Origin of Relativistic Jets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath:  [['$','$']],
+        displayMath: [['$$','$$']],
+        tags: 'ams',
+        macros: {
+          sub: ['_{#1}', 1],
+        }
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <style>
+    :root {
+      --bg:     #05050a;
+      --gold:   #e4a84a;
+      --cyan:   #4db8d4;
+      --text:   #d4d0e6;
+      --muted:  #5c5870;
+      --border: rgba(228,168,74,0.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ─────────────────────────────────────────────────── */
+    nav {
+      position: fixed; inset: 0 0 auto 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 3.5rem;
+      background: rgba(5,5,10,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); text-decoration: none;
+    }
+    .nav-links { list-style: none; display: flex; gap: 2.8rem; }
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--gold); }
+
+    /* ── Layout ──────────────────────────────────────────────── */
+    .post-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 9rem 2rem 8rem;
+    }
+    .back {
+      display: inline-flex; align-items: center; gap: .55rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      margin-bottom: 3.5rem; transition: color .25s;
+    }
+    .back:hover { color: var(--gold); }
+
+    /* ── Post header ─────────────────────────────────────────── */
+    .post-meta {
+      display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.4rem;
+    }
+    .tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.56rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: .22rem .65rem; border: 1px solid;
+    }
+    .tag-bh   { color: var(--gold); border-color: rgba(228,168,74,0.28); }
+    .tag-smbh { color: #e8804a;     border-color: rgba(232,128,74,0.28); }
+    .tag-jet  { color: var(--cyan); border-color: rgba(77,184,212,0.28); }
+    .post-date {
+      font-family: 'JetBrains Mono', monospace; font-size: .6rem;
+      letter-spacing: .1em; color: var(--muted);
+    }
+    .post-read {
+      font-family: 'JetBrains Mono', monospace; font-size: .6rem;
+      letter-spacing: .1em; color: var(--muted); margin-left: auto;
+    }
+    h1.post-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 300; line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 2.8rem; padding-bottom: 2.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Body typography ─────────────────────────────────────── */
+    .post-body { font-size: 1.05rem; line-height: 1.92; }
+    .post-body p  { margin-bottom: 1.6em; }
+    .post-body h2 {
+      font-family: 'Cormorant Garamond', serif; font-size: 2rem;
+      font-weight: 400; letter-spacing: -0.015em; margin: 2.8em 0 0.9em;
+      color: #e8e4f4;
+    }
+    .post-body h3 {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.5rem;
+      font-weight: 400; letter-spacing: -0.01em; margin: 2.2em 0 0.7em;
+      color: #c8c4d8;
+    }
+    .post-body h4 {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin: 2em 0 0.6em;
+    }
+    .post-body strong { font-weight: 600; color: #e8e4f4; }
+    .post-body em     { font-style: italic; color: #c8c4d4; }
+    .post-body a      { color: var(--gold); text-underline-offset: 3px; }
+    .post-body a:hover { color: #f0c070; }
+    .post-body code {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.82em;
+      background: rgba(228,168,74,0.08); color: #d4c090;
+      padding: .12em .4em; border-radius: 2px;
+    }
+    .post-body pre {
+      background: #0e0e18; border: 1px solid var(--border);
+      border-left: 2px solid #8a5f20;
+      padding: 1.5rem; overflow-x: auto; margin: 2em 0;
+    }
+    .post-body pre code { background: none; padding: 0; font-size: 0.85em; color: #c8c4e0; }
+    .post-body blockquote {
+      border-left: 2px solid var(--gold); margin: 2em 0;
+      padding: .4em 1.5em; color: var(--muted);
+      font-style: italic; font-size: 1.05em;
+    }
+    .post-body ul, .post-body ol { margin: 0 0 1.6em 1.5em; }
+    .post-body li { margin-bottom: .4em; }
+    .post-body hr { border: none; border-top: 1px solid var(--border); margin: 3em 0; }
+    .post-body table {
+      width: 100%; border-collapse: collapse; margin: 2em 0; font-size: .9rem;
+    }
+    .post-body th, .post-body td {
+      padding: .6rem 1rem; border: 1px solid var(--border); text-align: left;
+    }
+    .post-body th {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--gold); background: rgba(228,168,74,0.06);
+    }
+    .post-body img {
+      max-width: 100%; height: auto; display: block;
+      margin: 2.5em auto; border: 1px solid var(--border);
+    }
+    .post-body figure { margin: 2.5em 0; text-align: center; }
+    .post-body figcaption {
+      font-size: .82rem; color: var(--muted); margin-top: .8em; font-style: italic;
+    }
+    /* python-markdown footnotes */
+    .footnote {
+      font-size: .88rem; margin-top: 4em; padding-top: 1.5em;
+      border-top: 1px solid var(--border); color: var(--muted);
+    }
+    .footnote ol { margin-left: 1.2em; }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    .post-footer {
+      margin-top: 5rem; padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .post-footer-coords {
+      font-family: 'JetBrains Mono', monospace; font-size: .55rem;
+      letter-spacing: .1em; color: rgba(228,168,74,0.35);
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">Z. [Name] &nbsp;·&nbsp; BH Astrophysics</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="#">Research</a></li>
+    <li><a href="#">Publications</a></li>
+    <li><a href="../blog.html" class="active">Blog</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="post-wrap">
+  <a href="../blog.html" class="back">← Back to Blog</a>
+
+  <div class="post-meta">
+    <span class="tag tag-jet">Jets</span>
+    <span class="post-date">22 January 2026</span>
+    <span class="post-read">7 min read</span>
+  </div>
+
+  <h1 class="post-title">Magnetically Arrested Disks and the Origin of Relativistic Jets</h1>
+
+  <div class="post-body">
+<p>One of the outstanding puzzles of black hole astrophysics is the origin of relativistic jets:
+collimated outflows that extend from sub-parsec to megaparsec scales, carry enormous kinetic
+power, and are launched within a few gravitational radii of the black hole. The jet power in
+the most powerful radio galaxies and quasars can rival or exceed the bolometric luminosity of
+the accretion disk — in some cases by an order of magnitude.</p>
+<h2 id="the-blandfordznajek-mechanism">The Blandford–Znajek mechanism</h2>
+<p>The leading theoretical mechanism for jet power extraction is <strong>Blandford &amp; Znajek (1977)</strong>
+(BZ). In the BZ mechanism, large-scale poloidal magnetic field threads the spinning black hole
+ergosphere. The frame-dragging of spacetime twists field lines, launching a Poynting-flux jet
+with power:</p>
+<p>$$P_{\rm BZ} \approx \frac{\kappa}{4\pi c} \Phi_{\rm BH}^2 \Omega_H^2 f(\Omega_H)$$</p>
+<p>where $\Phi_{\rm BH}$ is the magnetic flux threading the horizon, $\Omega_H = a_<em> c / (2 r_H)$
+is the angular velocity of the horizon, and $f(\Omega_H)$ is a correction factor of order unity.
+The key point is that $P_{\rm BZ} \propto \Phi_{\rm BH}^2 a_</em>^2$: jet power depends on
+<em>both</em> the accumulated magnetic flux on the black hole <em>and</em> the spin.</p>
+<p>For a given spin, the jet is most powerful when $\Phi_{\rm BH}$ is maximised.</p>
+<h2 id="the-magnetically-arrested-disk">The magnetically arrested disk</h2>
+<p>GRMHD simulations (Narayan et al. 2012; Tchekhovskoy et al. 2011) find that magnetic flux
+accumulates on the black hole until the magnetic pressure near the horizon is comparable to
+the ram pressure of infalling gas:</p>
+<p>$$\phi \equiv \frac{\Phi_{\rm BH}}{\sqrt{\dot{M} r_g^2 c}} \approx 50$$</p>
+<p>(in Gaussian units appropriate to the simulation convention). Once $\phi$ saturates at this
+<strong>magnetically arrested disk</strong> (MAD) value, further flux accumulation is prevented — the disk
+is literally arrested by the magnetic field.</p>
+<p>In the MAD state:</p>
+<ul>
+<li><strong>Jet efficiency</strong> $\eta_j = P_j / \dot{M} c^2$ can exceed 100% for near-maximal spin,
+  meaning more energy is extracted from the spinning black hole than is delivered by accretion.</li>
+<li>The disk is intermittently disrupted by <strong>magnetic flux eruptions</strong> — episodes where
+  concentrated flux tubes break away from the horizon and are advected outward, temporarily
+  reducing $\phi$ before it builds up again.</li>
+<li>The accretion rate is reduced relative to the SANE (Standard and Normal Evolution) state
+  because the magnetic pressure partially supports against infall.</li>
+</ul>
+<h2 id="observational-signatures-of-the-mad-state">Observational signatures of the MAD state</h2>
+<p>Identifying MAD conditions observationally is challenging because we cannot directly image
+the horizon-scale magnetic field. Indirect signatures include:</p>
+<p><strong>1. High jet efficiency.</strong> In low-luminosity AGN where the jet kinetic power can be estimated
+from X-ray cavity calorimetry (e.g. Perseus A, Cygnus A), the implied $\eta_j$ sometimes
+approaches or exceeds the maximum radiative efficiency $\eta_{\rm rad} \approx 0.42$ for
+prograde maximal Kerr. This is only possible via BZ with a MAD-level flux.</p>
+<p><strong>2. Jet power variability.</strong> MAD flux eruptions produce transient reductions in jet power
+on timescales $\sim 10^2\text{–}10^3\,t_g$ (where $t_g = r_g / c$). In M87, VLBI monitoring
+shows limb-brightening and knot ejection events that may trace such episodic activity.</p>
+<p><strong>3. Rotation measure and circular polarisation.</strong> The Faraday rotation measure (RM) probes
+the line-of-sight magnetic field and electron density in the inner accretion flow. In Sgr A<em>,
+the </em>ALMA*-measured RM $\approx -5 \times 10^5\,\rm rad\,m^{-2}$ constrains the product
+$n_e B_\parallel r$ near the Bondi radius. EHT polarimetric imaging constrains the field
+topology at $\lesssim 10\,r_g$.</p>
+<p><strong>4. Jet collimation profile.</strong> In M87, <em>HST</em> and VLBI imaging resolve the jet morphology
+from $\sim 10^3\,r_g$ (parabolic self-collimation) to $\sim 10^6\,r_g$ (conical, ballistic).
+The collimation break radius correlates with the Bondi radius, consistent with the jet being
+shaped by interaction with the ambient RIAF.</p>
+<h2 id="the-radiox-ray-correlation">The radio–X-ray correlation</h2>
+<p>In hard-state X-ray binaries and low-luminosity AGN, a tight correlation exists between radio
+luminosity (proxy for jet power) and X-ray luminosity (proxy for accretion rate):</p>
+<p>$$L_R \propto L_X^{0.6\text{–}0.7}$$</p>
+<p>This <strong>fundamental plane of black hole activity</strong> (Merloni et al. 2003) extends over 8 decades
+in mass and 12 decades in luminosity. In the context of MAD/SANE models, systems that lie
+<em>above</em> the fundamental plane (radio-loud outliers) may be preferentially in the MAD state
+at high spin, while radio-quiet systems at the same $L_X$ may be in the SANE state with lower
+accumulated flux.</p>
+<h2 id="what-comes-next">What comes next</h2>
+<p>The distinguishing prediction of MAD models is the quasi-periodic magnetic flux eruptions.
+Detecting these requires:</p>
+<ul>
+<li>Time-resolved EHT or space-VLBI monitoring at $\lesssim 10\,r_g$ resolution</li>
+<li>Correlated multi-wavelength flares (mm + NIR + X-ray) with the characteristic MAD timescale
+  $\sim 10^3\,t_g$</li>
+</ul>
+<p>For M87, $t_g \approx 9$ hours, so MAD eruptions would appear as day-to-week variability in
+the VLBI structure — within reach of the current EHT programme. For Sgr A*, $t_g \approx 20$ s,
+so eruptions would appear on minute-to-hour timescales, possibly connected to the observed
+NIR and X-ray flares.</p>
+<hr />
+<p><em>References: Blandford &amp; Znajek 1977 (MNRAS 179, 433); Narayan et al. 2012 (MNRAS 426, 3241);
+Tchekhovskoy et al. 2011 (MNRAS 418, L79); Merloni et al. 2003 (MNRAS 345, 1057);
+Event Horizon Telescope Collaboration 2019 (ApJL 875, L5).</em></p>
+  </div>
+
+  <div class="post-footer">
+    <a href="../blog.html" class="back" style="margin:0">← Back to Blog</a>
+    <span class="post-footer-coords">
+      α 17<sup>h</sup>45<sup>m</sup>40<sup>s</sup> &nbsp;δ −29°00′28″ &nbsp;· &nbsp;Sgr A*
+    </span>
+  </div>
+</div>
+
+</body>
+</html>

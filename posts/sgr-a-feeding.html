@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feeding the Monster: Gas Dynamics at the Galactic Centre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath:  [['$','$']],
+        displayMath: [['$$','$$']],
+        tags: 'ams',
+        macros: {
+          sub: ['_{#1}', 1],
+        }
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <style>
+    :root {
+      --bg:     #05050a;
+      --gold:   #e4a84a;
+      --cyan:   #4db8d4;
+      --text:   #d4d0e6;
+      --muted:  #5c5870;
+      --border: rgba(228,168,74,0.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ─────────────────────────────────────────────────── */
+    nav {
+      position: fixed; inset: 0 0 auto 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 3.5rem;
+      background: rgba(5,5,10,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); text-decoration: none;
+    }
+    .nav-links { list-style: none; display: flex; gap: 2.8rem; }
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--gold); }
+
+    /* ── Layout ──────────────────────────────────────────────── */
+    .post-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 9rem 2rem 8rem;
+    }
+    .back {
+      display: inline-flex; align-items: center; gap: .55rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      margin-bottom: 3.5rem; transition: color .25s;
+    }
+    .back:hover { color: var(--gold); }
+
+    /* ── Post header ─────────────────────────────────────────── */
+    .post-meta {
+      display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.4rem;
+    }
+    .tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.56rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: .22rem .65rem; border: 1px solid;
+    }
+    .tag-bh   { color: var(--gold); border-color: rgba(228,168,74,0.28); }
+    .tag-smbh { color: #e8804a;     border-color: rgba(232,128,74,0.28); }
+    .tag-jet  { color: var(--cyan); border-color: rgba(77,184,212,0.28); }
+    .post-date {
+      font-family: 'JetBrains Mono', monospace; font-size: .6rem;
+      letter-spacing: .1em; color: var(--muted);
+    }
+    .post-read {
+      font-family: 'JetBrains Mono', monospace; font-size: .6rem;
+      letter-spacing: .1em; color: var(--muted); margin-left: auto;
+    }
+    h1.post-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 300; line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 2.8rem; padding-bottom: 2.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Body typography ─────────────────────────────────────── */
+    .post-body { font-size: 1.05rem; line-height: 1.92; }
+    .post-body p  { margin-bottom: 1.6em; }
+    .post-body h2 {
+      font-family: 'Cormorant Garamond', serif; font-size: 2rem;
+      font-weight: 400; letter-spacing: -0.015em; margin: 2.8em 0 0.9em;
+      color: #e8e4f4;
+    }
+    .post-body h3 {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.5rem;
+      font-weight: 400; letter-spacing: -0.01em; margin: 2.2em 0 0.7em;
+      color: #c8c4d8;
+    }
+    .post-body h4 {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin: 2em 0 0.6em;
+    }
+    .post-body strong { font-weight: 600; color: #e8e4f4; }
+    .post-body em     { font-style: italic; color: #c8c4d4; }
+    .post-body a      { color: var(--gold); text-underline-offset: 3px; }
+    .post-body a:hover { color: #f0c070; }
+    .post-body code {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.82em;
+      background: rgba(228,168,74,0.08); color: #d4c090;
+      padding: .12em .4em; border-radius: 2px;
+    }
+    .post-body pre {
+      background: #0e0e18; border: 1px solid var(--border);
+      border-left: 2px solid #8a5f20;
+      padding: 1.5rem; overflow-x: auto; margin: 2em 0;
+    }
+    .post-body pre code { background: none; padding: 0; font-size: 0.85em; color: #c8c4e0; }
+    .post-body blockquote {
+      border-left: 2px solid var(--gold); margin: 2em 0;
+      padding: .4em 1.5em; color: var(--muted);
+      font-style: italic; font-size: 1.05em;
+    }
+    .post-body ul, .post-body ol { margin: 0 0 1.6em 1.5em; }
+    .post-body li { margin-bottom: .4em; }
+    .post-body hr { border: none; border-top: 1px solid var(--border); margin: 3em 0; }
+    .post-body table {
+      width: 100%; border-collapse: collapse; margin: 2em 0; font-size: .9rem;
+    }
+    .post-body th, .post-body td {
+      padding: .6rem 1rem; border: 1px solid var(--border); text-align: left;
+    }
+    .post-body th {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--gold); background: rgba(228,168,74,0.06);
+    }
+    .post-body img {
+      max-width: 100%; height: auto; display: block;
+      margin: 2.5em auto; border: 1px solid var(--border);
+    }
+    .post-body figure { margin: 2.5em 0; text-align: center; }
+    .post-body figcaption {
+      font-size: .82rem; color: var(--muted); margin-top: .8em; font-style: italic;
+    }
+    /* python-markdown footnotes */
+    .footnote {
+      font-size: .88rem; margin-top: 4em; padding-top: 1.5em;
+      border-top: 1px solid var(--border); color: var(--muted);
+    }
+    .footnote ol { margin-left: 1.2em; }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    .post-footer {
+      margin-top: 5rem; padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .post-footer-coords {
+      font-family: 'JetBrains Mono', monospace; font-size: .55rem;
+      letter-spacing: .1em; color: rgba(228,168,74,0.35);
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">Z. [Name] &nbsp;·&nbsp; BH Astrophysics</a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="#">Research</a></li>
+    <li><a href="#">Publications</a></li>
+    <li><a href="../blog.html" class="active">Blog</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="post-wrap">
+  <a href="../blog.html" class="back">← Back to Blog</a>
+
+  <div class="post-meta">
+    <span class="tag tag-smbh">SMBH</span>
+    <span class="post-date">7 February 2026</span>
+    <span class="post-read">6 min read</span>
+  </div>
+
+  <h1 class="post-title">Feeding the Monster: Gas Dynamics at the Galactic Centre</h1>
+
+  <div class="post-body">
+<p>Our Galactic Centre hosts a supermassive black hole of mass $M \approx 4 \times 10^6\,M_\odot$,
+known as Sgr A<em> from its compact radio source coincident with the dynamical centre traced by
+stellar orbits. Despite sitting inside a dense young stellar cluster — the S-stars — whose
+strong winds provide a plentiful supply of hot gas, Sgr A</em> is strikingly underluminous:
+its bolometric luminosity is $L \sim 10^{36}$ erg s$^{-1}$, roughly nine orders of magnitude
+below the Eddington limit $L_{\rm Edd} \approx 5 \times 10^{44}$ erg s$^{-1}$.</p>
+<h2 id="the-bondi-accretion-problem">The Bondi accretion problem</h2>
+<p>Naive application of the Bondi (1952) formula for spherically symmetric accretion gives an
+accretion rate at the Bondi radius $r_B \approx GM/c_s^2$:</p>
+<p>$$\dot{M}<em>B \approx \pi \lambda r_B^2 \rho</em>\infty c_s$$</p>
+<p>where $c_s$ is the sound speed of the ambient medium and $\lambda$ is a factor of order unity.
+<em>Chandra</em> observations resolve the diffuse X-ray emission from the Bondi sphere (Baganoff et al.
+2003), yielding $\dot{M}<em>B \sim 10^{-5}\,M</em>\odot\,\rm yr^{-1}$. At the observed luminosity and
+an assumed radiative efficiency of $\eta \sim 0.1$, the implied accretion rate onto the black
+hole is $\dot{M}<em>{\rm BH} \sim 10^{-11}\,M</em>\odot\,\rm yr^{-1}$ — four orders of magnitude
+smaller than the Bondi value.</p>
+<p>Something between the Bondi radius ($\sim 10^5\,r_g$) and the event horizon removes or
+expels most of the inflowing gas.</p>
+<h2 id="radiatively-inefficient-accretion">Radiatively inefficient accretion</h2>
+<p>The standard solution invokes a <strong>radiatively inefficient accretion flow</strong> (RIAF). In the
+RIAF paradigm (Ichimaru 1977; Narayan &amp; Yi 1994), the accretion rate is low enough that
+Coulomb coupling between ions and electrons is inefficient: ions are heated by compression
+but cannot transfer energy rapidly to electrons, which radiate. The result is a geometrically
+thick, hot, two-temperature plasma:</p>
+<ul>
+<li><strong>Ions:</strong> $T_i \sim 10^{11}$ K (virial temperature)</li>
+<li><strong>Electrons:</strong> $T_e \sim 10^{9\text{–}10}$ K (set by Coulomb coupling and synchrotron losses)</li>
+</ul>
+<p>At each radius, a large fraction of the binding energy is stored in the ions rather than
+radiated. This naturally produces low luminosities. Furthermore, RIAFs are subject to strong
+winds — the convective and magnetocentrifugal instabilities drive outflows that carry away
+a large fraction of the inflowing mass, so $\dot{M}(r) \propto r^s$ with $s \approx 0.3$–0.5
+(Yuan &amp; Narayan 2014 review).</p>
+<h2 id="what-gravity-sees">What GRAVITY+ sees</h2>
+<p>The GRAVITY interferometer at the VLTI has transformed our empirical picture of the inner
+accretion flow. The key results:</p>
+<p><strong>Astrometric S2 orbit.</strong> The most precise measurement of $M_{\rm BH}$ and the distance to
+the Galactic Centre $R_0 = 8.277 \pm 0.009$ kpc (GRAVITY Collaboration 2022).</p>
+<p><strong>NIR flare astrometry.</strong> Hot spots orbiting within $\sim 10\,r_g$ during bright infrared
+flares trace clockwise motion consistent with orbital periods of $\sim 45$ min — implying
+radii of $\sim 6\text{–}10\,r_g$ and providing the first geometric constraint on the ISCO
+region of Sgr A* (Gravity Collaboration 2018).</p>
+<p><strong>Closure phases.</strong> At 2.2 µm, the source appears marginally resolved during flares at
+the level of $\sim 50\,\mu$as, constraining the size of the emitting region.</p>
+<h2 id="the-millimetre-picture-from-the-eht">The millimetre picture from the EHT</h2>
+<p>The first 230 GHz Event Horizon Telescope image of Sgr A<em> (EHT Collaboration 2022) shows
+a ring of emission with angular diameter $\sim 51\,\mu$as, consistent with the expected shadow
+diameter $\theta_{\rm sh} \approx 10\,r_g / D \approx 50\,\mu$as for $D = R_0$. The ring
+is asymmetric, with a brightness excess in the south consistent with relativistic beaming of
+clockwise-orbiting plasma. The source variability is rapid (timescale $\sim r_g/c \approx 20$ s),
+which complicates imaging compared to M87</em>.</p>
+<p>The EHT data are broadly consistent with GRMHD models in the MAD and SANE (Standard and Normal
+Evolution) states, though distinguishing between them requires:</p>
+<ol>
+<li>Multi-frequency polarisation closure quantities</li>
+<li>Longer baseline space-VLBI</li>
+<li>Better time-resolved imaging during flares</li>
+</ol>
+<h2 id="open-questions">Open questions</h2>
+<ul>
+<li>What fraction of the Bondi-sphere gas actually reaches $r \lesssim 100\,r_g$?</li>
+<li>What drives the NIR/X-ray flares — magnetic reconnection events, orbital hot spots, or jet instabilities?</li>
+<li>Is Sgr A* in the SANE or MAD state? The answer constrains how efficiently the jet extracts spin energy.</li>
+<li>Has the Galactic Centre been more active in the recent past? The Fermi Bubbles and the
+  X-ray reflection nebulae in the Central Molecular Zone suggest activity $\sim 10^6$ years ago
+  at a level $\sim 10^{4\text{–}6}$ times the current luminosity.</li>
+</ul>
+<hr />
+<p><em>References: Baganoff et al. 2003 (ApJ 591, 891); Narayan &amp; Yi 1994 (ApJ 428, L13);
+Yuan &amp; Narayan 2014 (ARA&amp;A 52, 529); GRAVITY Collaboration 2018 (A&amp;A 618, L10);
+EHT Collaboration 2022 (ApJL 930, L12).</em></p>
+  </div>
+
+  <div class="post-footer">
+    <a href="../blog.html" class="back" style="margin:0">← Back to Blog</a>
+    <span class="post-footer-coords">
+      α 17<sup>h</sup>45<sup>m</sup>40<sup>s</sup> &nbsp;δ −29°00′28″ &nbsp;· &nbsp;Sgr A*
+    </span>
+  </div>
+</div>
+
+</body>
+</html>

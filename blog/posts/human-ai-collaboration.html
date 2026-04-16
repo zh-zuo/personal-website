@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human–AI Collaboration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <script>MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']],tags:'ams'},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};</script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <style>
+    :root{--bg:#05050a;--gold:#e4a84a;--cyan:#4db8d4;--text:#d4d0e6;--muted:#5c5870;--border:rgba(228,168,74,0.10);}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'Source Serif 4',Georgia,serif;font-weight:300;-webkit-font-smoothing:antialiased;}
+    nav{position:fixed;inset:0 0 auto 0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 3.5rem;background:rgba(5,5,10,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);text-decoration:none;}
+    .nav-links{list-style:none;display:flex;gap:2.8rem;}
+    .nav-links a{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .25s;}
+    .nav-links a:hover{color:var(--text);} .nav-links a.active{color:var(--gold);}
+    .post-wrap{max-width:760px;margin:0 auto;padding:9rem 2rem 8rem;}
+    .back{display:inline-flex;align-items:center;gap:.55rem;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;margin-bottom:3.5rem;transition:color .25s;}
+    .back:hover{color:var(--gold);}
+    .post-meta{display:flex;align-items:center;gap:1.2rem;margin-bottom:1.4rem;}
+    .tag{font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;padding:.22rem .65rem;border:1px solid;}
+    .tag-bh{color:var(--gold);border-color:rgba(228,168,74,0.28);}
+    .tag-smbh{color:#e8804a;border-color:rgba(232,128,74,0.28);}
+    .tag-jet{color:var(--cyan);border-color:rgba(77,184,212,0.28);}
+    .tag-ai{color:#b48afe;border-color:rgba(180,138,254,0.28);}
+    .post-date{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--muted);}
+    .post-read{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--muted);margin-left:auto;}
+    h1.post-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:300;line-height:1.1;letter-spacing:-0.02em;margin-bottom:2.8rem;padding-bottom:2.8rem;border-bottom:1px solid var(--border);}
+    .post-body{font-size:1.05rem;line-height:1.92;}
+    .post-body p{margin-bottom:1.6em;}
+    .post-body h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;letter-spacing:-0.015em;margin:2.8em 0 0.9em;color:#e8e4f4;}
+    .post-body h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;margin:2.2em 0 0.7em;color:#c8c4d8;}
+    .post-body h4{font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin:2em 0 0.6em;}
+    .post-body strong{font-weight:600;color:#e8e4f4;}
+    .post-body em{font-style:italic;color:#c8c4d4;}
+    .post-body a{color:var(--gold);text-underline-offset:3px;}
+    .post-body a:hover{color:#f0c070;}
+    .post-body code{font-family:'JetBrains Mono',monospace;font-size:0.82em;background:rgba(228,168,74,0.08);color:#d4c090;padding:.12em .4em;border-radius:2px;}
+    .post-body pre{background:#0e0e18;border:1px solid var(--border);border-left:2px solid #8a5f20;padding:1.5rem;overflow-x:auto;margin:2em 0;}
+    .post-body pre code{background:none;padding:0;font-size:0.85em;color:#c8c4e0;}
+    .post-body blockquote{border-left:2px solid var(--gold);margin:2em 0;padding:.4em 1.5em;color:var(--muted);font-style:italic;font-size:1.05em;}
+    .post-body ul,.post-body ol{margin:0 0 1.6em 1.5em;}
+    .post-body li{margin-bottom:.4em;}
+    .post-body hr{border:none;border-top:1px solid var(--border);margin:3em 0;}
+    .post-body table{width:100%;border-collapse:collapse;margin:2em 0;font-size:.9rem;}
+    .post-body th,.post-body td{padding:.6rem 1rem;border:1px solid var(--border);text-align:left;}
+    .post-body th{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:rgba(228,168,74,0.06);}
+    .post-body img{max-width:100%;height:auto;display:block;margin:2.5em auto;border:1px solid var(--border);}
+    .post-body figure{margin:2.5em 0;text-align:center;}
+    .post-body figcaption{font-size:.82rem;color:var(--muted);margin-top:.8em;font-style:italic;}
+    .footnote{font-size:.88rem;margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);color:var(--muted);}
+    .footnote ol{margin-left:1.2em;}
+    .post-footer{margin-top:5rem;padding-top:2.5rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+    .post-footer-coords{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:rgba(228,168,74,0.35);}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../../index.html" class="nav-logo">[Your Name]</a>
+  <ul class="nav-links">
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="#">Research</a></li>
+    <li><a href="#">Publications</a></li>
+    <li><a href="../index.html" class="active">Blog</a></li>
+    <li><a href="../../index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+<div class="post-wrap">
+  <a href="../index.html" class="back">← Back to Blog</a>
+  <div class="post-meta">
+    <span class="tag tag-ai">AI</span>
+    <span class="post-date">16 April 2026</span>
+    <span class="post-read">7 min read</span>
+  </div>
+  <h1 class="post-title">Human–AI Collaboration</h1>
+  <div class="post-body">
+<p>The popular framing of AI as a replacement for human labour misses the more
+interesting story: the systems that deliver the most value are almost always
+<strong>human–AI hybrids</strong>, not fully autonomous pipelines.</p>
+<h2 id="why-hybrid-systems-outperform">Why hybrid systems outperform</h2>
+<p>Pure automation excels at narrow, well-defined tasks with stable distributions —
+image classification on a fixed label set, board games with known rules, protein
+structure prediction under equilibrium conditions. The moment the task involves
+ambiguous goals, shifting context, or ethical judgement, purely automated systems
+become brittle.</p>
+<p>Humans, on the other hand, are slow at processing large volumes of data,
+inconsistent across fatigue cycles, and prone to anchoring bias. But they remain
+unmatched at:</p>
+<ul>
+<li><strong>Contextual reasoning</strong> across domains that were never part of the training set</li>
+<li><strong>Goal reformulation</strong> — recognising that the question itself is wrong</li>
+<li><strong>Value alignment in real time</strong> — applying nuanced ethical and social judgement</li>
+</ul>
+<p>The sweet spot is a division of labour: let the machine handle throughput,
+pattern matching, and consistency; let the human handle framing, exception
+handling, and accountability.</p>
+<h2 id="lessons-from-astronomy">Lessons from astronomy</h2>
+<p>In astrophysics, this pattern is already mature. Transient survey pipelines like
+ZTF and the upcoming LSST process millions of alerts per night. No human team
+could triage that volume. But the classification models — random forests,
+convolutional nets, transformers — still produce false positives that only a
+domain expert can catch: instrumental artefacts that mimic real signals, or
+genuinely novel phenomena that the model was never trained on.</p>
+<p>The <strong>human-in-the-loop</strong> workflow looks like this:</p>
+<ol>
+<li>Machine ingests the data stream and applies a fast, high-recall filter</li>
+<li>Ranked candidates are presented to astronomers with contextual metadata</li>
+<li>Humans make the final accept/reject decision, and their feedback is logged</li>
+<li>Periodically, the feedback is used to retrain or fine-tune the model</li>
+</ol>
+<p>This cycle — <strong>predict → review → correct → retrain</strong> — is the engine of
+effective collaboration. It only works when the interface is designed to minimise
+the cognitive load on the human reviewer and maximise the information density of
+each presented candidate.</p>
+<h2 id="the-interface-is-the-bottleneck">The interface is the bottleneck</h2>
+<p>Most failures in human–AI collaboration are not algorithm failures — they are
+<strong>interface failures</strong>. If the model surfaces a recommendation but does not
+explain <em>why</em>, the human cannot efficiently override it. If the explanation is
+too verbose or too technical, the human ignores it. The design of the handoff
+point — what information is shown, in what order, at what level of abstraction —
+determines whether the collaboration is productive or adversarial.</p>
+<p>Good interfaces for human–AI collaboration share a few properties:</p>
+<ul>
+<li><strong>Calibrated confidence</strong>: the system communicates not just its prediction but
+  its uncertainty, so the human knows when to trust and when to scrutinise</li>
+<li><strong>Contrastive explanations</strong>: "I chose A over B because of X" is far more
+  useful than a saliency map</li>
+<li><strong>Editable assumptions</strong>: the human can tweak input parameters and see how
+  the output changes, building an interactive mental model</li>
+</ul>
+<h2 id="where-this-is-headed">Where this is headed</h2>
+<p>The next frontier is not "more autonomy" but <strong>tighter feedback loops</strong>. Systems
+that can learn from a handful of human corrections in real time — few-shot
+adaptation, online learning, reinforcement from human feedback — will shrink
+the latency between a human insight and a model improvement.</p>
+<p>The goal is not to remove the human from the loop. It is to make the loop so
+fast and so natural that the boundary between human reasoning and machine
+inference becomes invisible.</p>
+<hr />
+<p><em>The best AI system is the one you forget is there — because it has become an
+extension of how you think.</em></p>
+  </div>
+  <div class="post-footer">
+    <a href="../index.html" class="back" style="margin:0">← Back to Blog</a>
+    <span class="post-footer-coords">α 17<sup>h</sup>45<sup>m</sup>40<sup>s</sup> · Sgr A*</span>
+  </div>
+</div>
+</body>
+</html>

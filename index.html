@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[Your Name] — Astrophysicist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #05050a;
+      --bg2:     #09090f;
+      --gold:    #e4a84a;
+      --cyan:    #4db8d4;
+      --text:    #d4d0e6;
+      --muted:   #5c5870;
+      --border:  rgba(228,168,74,0.10);
+      --border-hi: rgba(228,168,74,0.30);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ─────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; inset: 0 0 auto 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 3.5rem;
+      transition: background .4s, border-color .4s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(5,5,10,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom-color: var(--border);
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); text-decoration: none;
+    }
+    .nav-links { list-style: none; display: flex; gap: 2.8rem; }
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--gold); }
+
+    /* ── Hero ────────────────────────────────────────────────────── */
+    .hero {
+      position: relative; height: 100vh; min-height: 640px;
+      display: flex; align-items: center; overflow: hidden;
+    }
+    #hero-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 3.5rem; max-width: 680px;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: rise 1s 0.3s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.8rem, 8vw, 7.5rem);
+      font-weight: 300; line-height: 0.93; letter-spacing: -0.025em;
+      margin-bottom: 1.6rem;
+      opacity: 0; animation: rise 1s 0.5s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero-role {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.8rem;
+      opacity: 0; animation: rise 1s 0.7s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero-bio {
+      font-size: 1rem; line-height: 1.85; color: rgba(212,208,230,0.75);
+      max-width: 480px; margin-bottom: 2.5rem;
+      opacity: 0; animation: rise 1s 0.85s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero-ctas {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; animation: rise 1s 1s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .btn {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: .65rem 1.6rem; text-decoration: none;
+      transition: all .25s;
+    }
+    .btn-primary {
+      background: var(--gold); color: #05050a;
+    }
+    .btn-primary:hover { background: #f0c060; }
+    .btn-outline {
+      border: 1px solid var(--border-hi); color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Section shared ──────────────────────────────────────────── */
+    section { padding: 7rem 3.5rem; }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold);
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif; font-size: 3rem;
+      font-weight: 300; letter-spacing: -0.02em; line-height: 1;
+      margin: 0.6rem 0 3rem;
+    }
+    .section-header-row {
+      display: flex; align-items: baseline; gap: 1.4rem; margin-bottom: 3.5rem;
+    }
+    .sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+    /* ── About ───────────────────────────────────────────────────── */
+    #about { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .about-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1.6fr; gap: 6rem; align-items: start;
+    }
+    .about-photo {
+      aspect-ratio: 3/4; background: #0e0e18;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+    }
+    .about-text p {
+      font-size: 1.05rem; line-height: 1.9; margin-bottom: 1.4em; color: rgba(212,208,230,0.85);
+    }
+    .about-links {
+      display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem;
+    }
+    .about-link {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: .35rem .9rem; border: 1px solid var(--border);
+      color: var(--muted); text-decoration: none; transition: all .25s;
+    }
+    .about-link:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── Research ─────────────────────────────────────────────────── */
+    #research { max-width: 1200px; margin: 0 auto; }
+    .research-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    }
+    .research-card {
+      padding: 2.5rem; background: var(--bg2);
+      border: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      transition: border-color .3s;
+    }
+    .research-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 20% 80%, rgba(228,168,74,0.05), transparent 60%);
+      opacity: 0; transition: opacity .4s;
+    }
+    .research-card:hover::before { opacity: 1; }
+    .research-card:hover { border-color: var(--border-hi); }
+    .rc-num {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.2em; color: var(--gold); margin-bottom: 1.5rem;
+      display: block;
+    }
+    .rc-title {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.7rem;
+      font-weight: 400; line-height: 1.2; margin-bottom: 1rem;
+    }
+    .rc-desc {
+      font-size: 0.88rem; line-height: 1.8; color: var(--muted);
+    }
+
+    /* ── Recent posts ─────────────────────────────────────────────── */
+    #recent-posts {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .posts-wrap { max-width: 1200px; margin: 0 auto; }
+    .blog-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+      margin-bottom: 3rem;
+    }
+    .card {
+      position: relative; padding: 2.5rem 2.8rem 3.2rem;
+      background: var(--bg); border: 1px solid var(--border);
+      overflow: hidden; cursor: pointer; transition: border-color .3s, background .3s;
+      text-decoration: none; color: inherit; display: block;
+    }
+    .card:first-child { grid-column: 1 / 3; }
+    .card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 18% 60%, rgba(228,168,74,0.05), transparent 55%);
+      opacity: 0; transition: opacity .5s; pointer-events: none;
+    }
+    .card::after {
+      content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent 70%);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .4s cubic-bezier(.22,1,.36,1);
+    }
+    .card:hover::before { opacity: 1; }
+    .card:hover::after  { transform: scaleX(1); }
+    .card:hover { border-color: var(--border-hi); }
+    .card-meta { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.2rem; }
+    .tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.56rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: .22rem .65rem; border: 1px solid;
+    }
+    .tag-bh   { color: var(--gold); border-color: rgba(228,168,74,0.28); }
+    .tag-smbh { color: #e8804a;     border-color: rgba(232,128,74,0.28); }
+    .tag-jet  { color: var(--cyan); border-color: rgba(77,184,212,0.28); }
+    .tag-ai   { color: #b48afe;     border-color: rgba(180,138,254,0.28); }
+    .card-date {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
+      letter-spacing: .1em; color: var(--muted);
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.85rem;
+      font-weight: 400; line-height: 1.18; letter-spacing: -0.012em;
+      margin-bottom: 1rem; transition: color .3s;
+    }
+    .card:first-child .card-title { font-size: 2.5rem; font-weight: 300; }
+    .card:hover .card-title { color: var(--gold); }
+    .card-excerpt { font-size: 0.875rem; line-height: 1.85; color: var(--muted); }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 1.8rem;
+    }
+    .read-time {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.56rem;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--muted); opacity: .6;
+    }
+    .card-arrow {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      letter-spacing: .1em; color: var(--muted); transition: color .3s, transform .3s;
+    }
+    .card:hover .card-arrow { color: var(--gold); transform: translateX(5px); }
+    .all-posts-link {
+      display: flex; align-items: center; justify-content: flex-end; gap: .6rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color .25s;
+    }
+    .all-posts-link:hover { color: var(--gold); }
+
+    /* ── Contact ─────────────────────────────────────────────────── */
+    #contact { max-width: 1200px; margin: 0 auto; }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start;
+    }
+    .contact-intro { font-size: 1.05rem; line-height: 1.9; color: rgba(212,208,230,0.8); }
+    .contact-intro p { margin-bottom: 1.4em; }
+    .contact-details { display: flex; flex-direction: column; gap: 1.4rem; }
+    .contact-item { border-bottom: 1px solid var(--border); padding-bottom: 1.4rem; }
+    .contact-item:last-child { border-bottom: none; }
+    .ci-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      letter-spacing: .18em; text-transform: uppercase; color: var(--gold);
+      margin-bottom: .4rem;
+    }
+    .ci-value {
+      font-size: 0.95rem; color: var(--text);
+    }
+    .ci-value a { color: var(--text); text-decoration: none; transition: color .25s; }
+    .ci-value a:hover { color: var(--gold); }
+
+    /* ── Footer ──────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.4rem 3.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    footer p {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
+      letter-spacing: .1em; color: var(--muted);
+    }
+    footer .coords { color: rgba(228,168,74,0.38); }
+
+    /* ── Grid background texture ─────────────────────────────────── */
+    .grid-texture {
+      position: relative;
+    }
+    .grid-texture::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(228,168,74,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(228,168,74,0.022) 1px, transparent 1px);
+      background-size: 72px 72px; pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ───────────────────────────────────────────────────────── -->
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo">[Your Name]</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#">Publications</a></li>
+    <li><a href="blog/">Blog</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ──────────────────────────────────────────────────────── -->
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Astrophysicist</p>
+    <h1 class="hero-name">[Your<br>Name]</h1>
+    <p class="hero-role">[Your Institution] &nbsp;·&nbsp; [Your Department]</p>
+    <p class="hero-bio">
+      I study the extreme physics of accreting black holes — from stellar-mass systems
+      in X-ray binaries to supermassive black holes at galactic centres and active galactic
+      nuclei. My work focuses on constraining black hole spin, accretion flow geometry,
+      and the mechanisms behind relativistic jet formation.
+    </p>
+    <div class="hero-ctas">
+      <a href="#research" class="btn btn-primary">Research</a>
+      <a href="blog/" class="btn btn-outline">Blog</a>
+      <a href="#" class="btn btn-outline">Publications</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── About ─────────────────────────────────────────────────────── -->
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <p class="section-label">About</p>
+      <h2 class="section-title">Who I Am</h2>
+      <div class="about-photo">[ your photo ]</div>
+    </div>
+    <div class="about-text">
+      <p>
+        I am a [postdoctoral researcher / PhD student / faculty member] at [Your Institution],
+        working on the observational and theoretical astrophysics of compact objects.
+        My primary tools are X-ray spectroscopy (with missions including <em>XRISM</em>,
+        <em>NuSTAR</em>, <em>Chandra</em>, and <em>XMM-Newton</em>) and radio/mm-VLBI
+        observations through the Event Horizon Telescope collaboration.
+      </p>
+      <p>
+        Before [current position], I completed my [PhD / MSc] at [Previous Institution]
+        under the supervision of [Advisor Name]. I grew up in [City, Country].
+        When not thinking about black holes I enjoy [hobby], [hobby], and [hobby].
+      </p>
+      <p>
+        I am committed to open, reproducible science. Analysis code accompanying
+        published results is shared on GitHub. I welcome inquiries from prospective
+        students and collaborators.
+      </p>
+      <div class="about-links">
+        <a href="#" class="about-link">NASA ADS</a>
+        <a href="#" class="about-link">arXiv</a>
+        <a href="#" class="about-link">ORCID</a>
+        <a href="#" class="about-link">GitHub</a>
+        <a href="#" class="about-link">Twitter / X</a>
+        <a href="#" class="about-link">CV (PDF)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Research ───────────────────────────────────────────────────── -->
+<section id="research" class="grid-texture">
+  <div style="max-width:1200px;margin:0 auto;position:relative;z-index:1">
+    <div class="section-header-row">
+      <span class="section-label">02 /</span>
+      <h2 class="section-title" style="margin:0">Research</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="research-grid">
+      <div class="research-card">
+        <span class="rc-num">01 ── Stellar-mass BH</span>
+        <h3 class="rc-title">X-ray Binaries &amp; Accretion Physics</h3>
+        <p class="rc-desc">
+          Constraining black hole spin and corona geometry through X-ray reflection
+          spectroscopy, continuum fitting, and quasi-periodic oscillations in
+          accreting stellar-mass black holes in their various spectral states.
+          Key missions: <em>XRISM</em>, <em>NuSTAR</em>, <em>NICER</em>.
+        </p>
+      </div>
+      <div class="research-card">
+        <span class="rc-num">02 ── Supermassive BH</span>
+        <h3 class="rc-title">AGN &amp; Galactic Centre Physics</h3>
+        <p class="rc-desc">
+          Probing gas dynamics, magnetic field structure, and accretion flow geometry
+          around supermassive black holes, from the low-luminosity Galactic Centre
+          Sgr A* to powerful radio-loud AGN. Key facilities: <em>EHT</em>,
+          <em>GRAVITY</em>, <em>ALMA</em>, <em>Chandra</em>.
+        </p>
+      </div>
+      <div class="research-card">
+        <span class="rc-num">03 ── Jets</span>
+        <h3 class="rc-title">Relativistic Jets &amp; Outflows</h3>
+        <p class="rc-desc">
+          Understanding how spin energy and magnetic flux combine to launch and
+          collimate relativistic jets via the Blandford–Znajek mechanism.
+          Connecting GRMHD theory to multi-wavelength and VLBI observations
+          of jet power intermittency and the MAD state.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Recent posts ───────────────────────────────────────────────── -->
+<section id="recent-posts">
+  <div class="posts-wrap">
+    <div class="section-header-row">
+      <span class="section-label">03 /</span>
+      <h2 class="section-title" style="margin:0">Recent Notes</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="blog-grid">
+      <!-- RECENT_POSTS_START -->
+
+    <a class="card" href="blog/posts/do-machines-have-intuition.html">
+      <div class="card-meta">
+        <span class="tag tag-ai">AI</span>
+        <span class="card-date">2026 — 04 — 16</span>
+      </div>
+      <h3 class="card-title">Do Machines Have Intuition?</h3>
+      <p class="card-excerpt">When AlphaGo played Move 37, commentators called it "intuitive." But is pattern recognition at superhuman scale the same thing as intuition — or something fundamentally different?</p>
+      <div class="card-footer">
+        <span class="read-time">~9 min read</span>
+        <span class="card-arrow">Read more →</span>
+      </div>
+    </a>
+    <a class="card" href="blog/posts/human-ai-collaboration.html">
+      <div class="card-meta">
+        <span class="tag tag-ai">AI</span>
+        <span class="card-date">2026 — 04 — 16</span>
+      </div>
+      <h3 class="card-title">Human–AI Collaboration</h3>
+      <p class="card-excerpt">The most powerful applications of artificial intelligence are not autonomous agents replacing human expertise, but symbiotic partnerships where each side compensates for the other's blind spots.</p>
+      <div class="card-footer">
+        <span class="read-time">~7 min read</span>
+        <span class="card-arrow">Read more →</span>
+      </div>
+    </a>
+    <a class="card" href="blog/posts/iron-line-spin.html">
+      <div class="card-meta">
+        <span class="tag tag-bh">Stellar-mass BH</span>
+        <span class="card-date">2026 — 03 — 14</span>
+      </div>
+      <h3 class="card-title">The Relativistically Blurred Iron Kα Line as a Spin Diagnostic in X-ray Binaries</h3>
+      <p class="card-excerpt">The broad, skewed Fe Kα fluorescence feature carries a clean imprint of gravitational redshift and Lense–Thirring frame-dragging near the ISCO. Here I discuss what reflection spectroscopy is actually measuring, and where the systematic uncertainties live.</p>
+      <div class="card-footer">
+        <span class="read-time">~8 min read</span>
+        <span class="card-arrow">Read more →</span>
+      </div>
+    </a>
+    <!-- RECENT_POSTS_END -->
+    </div>
+    <a href="blog/" class="all-posts-link">All posts →</a>
+  </div>
+</section>
+
+<!-- ── Contact ────────────────────────────────────────────────────── -->
+<section id="contact">
+  <div class="section-header-row">
+    <span class="section-label">04 /</span>
+    <h2 class="section-title" style="margin:0">Contact</h2>
+    <div class="sec-rule"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-intro">
+      <p>
+        I am always happy to hear from prospective collaborators, students interested
+        in compact object astrophysics, or journalists writing about black holes.
+      </p>
+      <p>
+        For general enquiries the best route is email. For questions about specific
+        papers the GitHub repository for each project is often the quickest place
+        to raise an issue.
+      </p>
+    </div>
+    <div class="contact-details">
+      <div class="contact-item">
+        <p class="ci-label">Email</p>
+        <p class="ci-value"><a href="mailto:you@institution.edu">you@institution.edu</a></p>
+      </div>
+      <div class="contact-item">
+        <p class="ci-label">Office</p>
+        <p class="ci-value">Room [XXX], [Building], [Your Institution]</p>
+      </div>
+      <div class="contact-item">
+        <p class="ci-label">Mailing address</p>
+        <p class="ci-value">
+          [Department Name]<br>
+          [Your Institution]<br>
+          [City, Country, Postcode]
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────────────────── -->
+<footer>
+  <p>© 2026 · [Your Name] · [Your Institution]</p>
+  <p class="coords">α 17<sup>h</sup>45<sup>m</sup>40<sup>s</sup> &nbsp;δ −29°00′28″ &nbsp;· &nbsp;Sgr A*</p>
+</footer>
+
+
+<!-- ── Canvas animation + mouse effects ──────────────────────────── -->
+<script>
+(function () {
+  const canvas = document.getElementById('hero-canvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, cx, cy, t = 0;
+  let stars = [], particles = [], lastSpawn = 0;
+  let mx = -9999, my = -9999;
+
+  /* resize */
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+    cx = W / 2; cy = H / 2;
+    buildStars();
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  /* mouse */
+  window.addEventListener('mousemove', e => {
+    const r = canvas.getBoundingClientRect();
+    mx = e.clientX - r.left;
+    my = e.clientY - r.top;
+  });
+  window.addEventListener('mouseleave', () => { mx = -9999; my = -9999; });
+
+  /* stars */
+  function buildStars() {
+    stars = Array.from({ length: 300 }, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 1.1 + 0.15,
+      base: Math.random() * 0.65 + 0.15,
+      spd: Math.random() * 0.0025 + 0.0008,
+      ph:  Math.random() * Math.PI * 2,
+    }));
+  }
+  function drawStars() {
+    const LR = 200, LK = 55;
+    for (const s of stars) {
+      const a = s.base * (0.45 + 0.55 * Math.sin(t * s.spd * 60 + s.ph));
+      const dx = mx - s.x, dy = my - s.y;
+      const d  = Math.sqrt(dx*dx + dy*dy) || 1;
+      let rx = s.x, ry = s.y;
+      if (d < LR) {
+        const str = LK / Math.max(d, 18) * (1 - d / LR);
+        rx += dx/d * str; ry += dy/d * str;
+      }
+      const nb = d < 80 ? (1 + (80-d)/80*1.5) : 1;
+      ctx.beginPath();
+      ctx.arc(rx, ry, s.r * nb, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(210,205,238,${Math.min(a*nb,1)})`;
+      ctx.fill();
+    }
+  }
+
+  /* particles */
+  function spawnParticles(ts) {
+    if (mx < 0 || mx > W || my < 0 || my > H) return;
+    if (ts - lastSpawn < 28) return;
+    lastSpawn = ts;
+    for (let i = 0; i < 3; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const spd = Math.random() * 1.2 + 0.3;
+      const bx  = (cx-mx), by = (cy-my), bd = Math.sqrt(bx*bx+by*by)||1;
+      const isJet = Math.random() < 0.28;
+      particles.push({
+        x: mx+(Math.random()-.5)*6, y: my+(Math.random()-.5)*6,
+        vx: Math.cos(ang)*spd + bx/bd*0.4,
+        vy: Math.sin(ang)*spd + by/bd*0.4,
+        life: 1, decay: Math.random()*0.018+0.012,
+        r: Math.random()*2.2+0.8, isJet,
+      });
+    }
+  }
+  function drawParticles() {
+    const alive = [];
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy; p.vx *= .975; p.vy *= .975; p.life -= p.decay;
+      if (p.life <= 0) continue;
+      alive.push(p);
+      const a = p.life * p.life;
+      const r = p.r * (1 + (1-p.life)*0.8);
+      ctx.fillStyle = p.isJet
+        ? `rgba(90,200,245,${a*.92})`
+        : (p.life > 0.6 ? `rgba(255,248,200,${a*.95})` : `rgba(235,155,45,${a*.85})`);
+      ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI*2); ctx.fill();
+      const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,r*4.5);
+      g.addColorStop(0, p.isJet?`rgba(80,200,255,${a*.22})`:`rgba(255,175,50,${a*.20})`);
+      g.addColorStop(1,'transparent');
+      ctx.beginPath(); ctx.arc(p.x,p.y,r*4.5,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+    }
+    particles = alive;
+  }
+  function drawCursorGlow() {
+    if (mx < -100) return;
+    const pulse = 0.7 + 0.3*Math.sin(t*2.8);
+    const r1 = 22+4*pulse, r2 = 38+6*pulse;
+    const gH = ctx.createRadialGradient(mx,my,r1*.4,mx,my,r2*1.8);
+    gH.addColorStop(0,`rgba(228,168,74,${.10*pulse})`);
+    gH.addColorStop(0.5,`rgba(228,130,40,${.05*pulse})`);
+    gH.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.arc(mx,my,r2*1.8,0,Math.PI*2); ctx.fillStyle=gH; ctx.fill();
+    ctx.beginPath(); ctx.arc(mx,my,r1,0,Math.PI*2);
+    ctx.strokeStyle=`rgba(228,175,80,${.55*pulse})`; ctx.lineWidth=1.0; ctx.stroke();
+    ctx.beginPath(); ctx.arc(mx,my,r2,0,Math.PI*2);
+    ctx.strokeStyle=`rgba(228,155,55,${.22*pulse})`; ctx.lineWidth=.7; ctx.stroke();
+    for (let a=0; a<Math.PI*2; a+=Math.PI/2) {
+      const cos=Math.cos(a+t*.4), sin=Math.sin(a+t*.4);
+      ctx.beginPath();
+      ctx.moveTo(mx+cos*(r2+3),my+sin*(r2+3));
+      ctx.lineTo(mx+cos*(r2+8),my+sin*(r2+8));
+      ctx.strokeStyle=`rgba(228,168,74,${.55*pulse})`; ctx.lineWidth=1.0; ctx.stroke();
+    }
+  }
+
+  /* black hole */
+  function drawJets(R) {
+    const pulse = 0.82+0.18*Math.sin(t*1.1);
+    const jH=H*.44, wB=R*.18, wT=R*1.55;
+    const gU=ctx.createLinearGradient(cx,cy-R,cx,cy-jH);
+    gU.addColorStop(0,`rgba(100,210,255,${0.6*pulse})`);
+    gU.addColorStop(.28,`rgba(65,165,230,${0.38*pulse})`);
+    gU.addColorStop(.62,`rgba(35,100,200,${0.15*pulse})`);
+    gU.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.moveTo(cx-wB,cy-R*1.05); ctx.lineTo(cx+wB,cy-R*1.05);
+    ctx.lineTo(cx+wT,cy-jH); ctx.lineTo(cx-wT,cy-jH);
+    ctx.fillStyle=gU; ctx.fill();
+    const gD=ctx.createLinearGradient(cx,cy+R,cx,cy+jH*.65);
+    gD.addColorStop(0,`rgba(75,175,218,${0.38*pulse})`);
+    gD.addColorStop(.4,`rgba(45,125,190,${0.18*pulse})`);
+    gD.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.moveTo(cx-wB,cy+R*1.05); ctx.lineTo(cx+wB,cy+R*1.05);
+    ctx.lineTo(cx+wT*.8,cy+jH*.65); ctx.lineTo(cx-wT*.8,cy+jH*.65);
+    ctx.fillStyle=gD; ctx.fill();
+  }
+  function drawBlackHole() {
+    const R=Math.min(W,H)*.082, tilt=.27, Ri=R*1.85, Ro=R*5.4;
+    const gA=ctx.createRadialGradient(cx,cy,R*1.5,cx,cy,Ro*2.5);
+    gA.addColorStop(0,'rgba(120,50,8,.18)'); gA.addColorStop(.4,'rgba(80,28,4,.07)'); gA.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.ellipse(cx,cy,Ro*2.5,Ro*2.5*tilt*1.6,0,0,Math.PI*2); ctx.fillStyle=gA; ctx.fill();
+    drawJets(R);
+    ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,cy); ctx.clip();
+    const gBk=ctx.createRadialGradient(cx,cy,Ri*.65,cx,cy,Ro);
+    gBk.addColorStop(0,'rgba(255,190,65,.52)'); gBk.addColorStop(.2,'rgba(238,120,32,.38)');
+    gBk.addColorStop(.5,'rgba(185,55,12,.20)'); gBk.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.ellipse(cx,cy,Ro,Ro*tilt,0,0,Math.PI*2); ctx.fillStyle=gBk; ctx.fill();
+    ctx.restore();
+    const gPh=ctx.createRadialGradient(cx,cy,R*.88,cx,cy,R*2.3);
+    gPh.addColorStop(0,'rgba(0,0,0,0)'); gPh.addColorStop(.42,'rgba(255,195,65,.26)');
+    gPh.addColorStop(.58,'rgba(255,155,30,.14)'); gPh.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.arc(cx,cy,R*2.3,0,Math.PI*2); ctx.fillStyle=gPh; ctx.fill();
+    ctx.save(); ctx.beginPath(); ctx.rect(0,cy,W,H); ctx.clip();
+    const gL=ctx.createRadialGradient(cx,cy+R*.22,R*.55,cx,cy+R*.3,R*1.55);
+    gL.addColorStop(0,'rgba(255,235,110,.42)'); gL.addColorStop(.55,'rgba(255,160,40,.20)'); gL.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.arc(cx,cy,R*1.55,0,Math.PI*2); ctx.fillStyle=gL; ctx.fill();
+    ctx.restore();
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.fillStyle='#000'; ctx.fill();
+    ctx.beginPath(); ctx.arc(cx,cy,R*1.08,0,Math.PI*2);
+    ctx.strokeStyle='rgba(255,205,80,.32)'; ctx.lineWidth=R*.11; ctx.stroke();
+    ctx.save(); ctx.beginPath(); ctx.rect(0,cy,W,H); ctx.clip();
+    const gF=ctx.createRadialGradient(cx,cy,Ri*.65,cx,cy,Ro);
+    gF.addColorStop(0,'rgba(255,252,188,.98)'); gF.addColorStop(.1,'rgba(255,210,85,.93)');
+    gF.addColorStop(.25,'rgba(250,140,38,.78)'); gF.addColorStop(.5,'rgba(210,72,18,.50)');
+    gF.addColorStop(.78,'rgba(130,28,4,.18)'); gF.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.ellipse(cx,cy,Ro,Ro*tilt,0,0,Math.PI*2); ctx.fillStyle=gF; ctx.fill();
+    const ha=-(t*.38)%(Math.PI*2), hR=Ri+(Ro-Ri)*.28;
+    const hx=cx+Math.cos(ha)*hR, hy=cy+Math.sin(ha)*hR*tilt;
+    const gH=ctx.createRadialGradient(hx,hy,0,hx,hy,R*2.5);
+    gH.addColorStop(0,'rgba(255,255,210,.50)'); gH.addColorStop(.45,'rgba(255,190,65,.22)'); gH.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.ellipse(cx,cy,Ro,Ro*tilt,0,0,Math.PI*2); ctx.fillStyle=gH; ctx.fill();
+    ctx.restore();
+    ctx.beginPath(); ctx.arc(cx,cy,R*.96,0,Math.PI*2); ctx.fillStyle='#000'; ctx.fill();
+  }
+  function drawVignette() {
+    const g=ctx.createRadialGradient(cx,cy,Math.min(W,H)*.25,cx,cy,Math.max(W,H)*.82);
+    g.addColorStop(0,'transparent'); g.addColorStop(1,'rgba(0,0,0,.72)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  }
+
+  /* loop */
+  function frame(ts) {
+    t = ts * .001;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#05050a'; ctx.fillRect(0,0,W,H);
+    drawStars(); drawBlackHole(); drawVignette();
+    spawnParticles(ts); drawParticles(); drawCursorGlow();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* nav scroll */
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 24);
+  }, { passive: true });
+})();
+</script>
+
+</body>
+</html>
