@@ -189,7 +189,7 @@ def render_post_page(meta, content_html):
 </head>
 <body>
 <nav>
-  <a href="../../index.html" class="nav-logo">[Your Name]</a>
+  <a href="../../index.html" class="nav-logo">Zihao Zuo</a>
   <ul class="nav-links">
     <li><a href="../../index.html">Home</a></li>
     <li><a href="#">Research</a></li>
