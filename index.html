@@ -134,22 +134,13 @@
 
     /* ── About ───────────────────────────────────────────────────── */
     #about { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .about-grid {
-      max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1.6fr; gap: 6rem; align-items: start;
-    }
-    .about-photo {
-      aspect-ratio: 3/4; background: #0e0e18;
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--muted); font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
-    }
+    .about-inner { max-width: 1200px; margin: 0 auto; }
+    .about-text { max-width: 70ch; }
     .about-text p {
       font-size: 1.05rem; line-height: 1.9; margin-bottom: 1.4em; color: rgba(212,208,230,0.85);
     }
     .about-links {
-      display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem;
+      display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.5rem;
     }
     .about-link {
       font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
@@ -419,11 +410,11 @@
 
 <!-- ── About ─────────────────────────────────────────────────────── -->
 <section id="about">
-  <div class="about-grid">
-    <div>
-      <p class="section-label">About</p>
-      <h2 class="section-title">Who I Am</h2>
-      <div class="about-photo">[ your photo ]</div>
+  <div class="about-inner">
+    <div class="section-header-row">
+      <span class="section-label">01 /</span>
+      <h2 class="section-title" style="margin:0">About</h2>
+      <div class="sec-rule"></div>
     </div>
     <div class="about-text">
       <p>
