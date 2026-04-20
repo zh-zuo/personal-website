@@ -190,6 +190,77 @@
       font-size: 0.88rem; line-height: 1.8; color: var(--muted);
     }
 
+    /* ── Publications ─────────────────────────────────────────────── */
+    #publications { max-width: 1200px; margin: 0 auto; }
+    .pub-list { list-style: none; padding: 0; margin: 0; }
+    .pub-item {
+      position: relative;
+      padding: 2.2rem 0 2rem 2.2rem;
+      border-top: 1px solid var(--border);
+      transition: border-color .3s;
+    }
+    .pub-item:last-child { border-bottom: 1px solid var(--border); }
+    .pub-item::before {
+      content: ''; position: absolute;
+      left: 0; top: 2.6rem; width: 12px; height: 1px;
+      background: var(--gold);
+      opacity: 0.45;
+      transition: opacity .3s, width .3s;
+    }
+    .pub-item:hover { border-top-color: var(--border-hi); }
+    .pub-item:hover + .pub-item { border-top-color: var(--border-hi); }
+    .pub-item:hover::before { opacity: 1; width: 18px; }
+    .pub-meta {
+      display: flex; gap: 1rem; align-items: baseline;
+      margin-bottom: 0.7rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .pub-year { color: var(--gold); font-weight: 400; }
+    .pub-role { color: var(--muted); }
+    .pub-role.lead { color: #e8804a; }
+    .pub-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      font-weight: 400;
+      line-height: 1.3;
+      letter-spacing: -0.005em;
+      margin-bottom: 0.55rem;
+      color: var(--text);
+      max-width: 72ch;
+    }
+    .pub-authors {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: rgba(212,208,230,0.78);
+      margin-bottom: 0.3rem;
+      max-width: 72ch;
+    }
+    .pub-authors .pub-me { color: var(--gold); font-weight: 400; }
+    .pub-venue {
+      font-family: 'Source Serif 4', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+    .pub-venue .pub-loc { font-style: normal; letter-spacing: 0.02em; }
+    .pub-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .pub-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.28rem 0.75rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-decoration: none;
+      transition: all .25s;
+    }
+    .pub-link:hover { border-color: var(--gold); color: var(--gold); }
+
     /* ── Recent posts ─────────────────────────────────────────────── */
     #recent-posts {
       background: var(--bg2);
@@ -319,7 +390,7 @@
   <ul class="nav-links">
     <li><a href="index.html" class="active">Home</a></li>
     <li><a href="#research">Research</a></li>
-    <li><a href="#">Publications</a></li>
+    <li><a href="#publications">Publications</a></li>
     <li><a href="blog/">Blog</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -341,7 +412,7 @@
     <div class="hero-ctas">
       <a href="#research" class="btn btn-primary">Research</a>
       <a href="blog/" class="btn btn-outline">Blog</a>
-      <a href="#" class="btn btn-outline">Publications</a>
+      <a href="#publications" class="btn btn-outline">Publications</a>
     </div>
   </div>
 </section>
@@ -431,11 +502,79 @@
   </div>
 </section>
 
+<!-- ── Publications ───────────────────────────────────────────────── -->
+<section id="publications">
+  <div class="section-header-row">
+    <span class="section-label">03 /</span>
+    <h2 class="section-title" style="margin:0">Publications</h2>
+    <div class="sec-rule"></div>
+  </div>
+  <ol class="pub-list">
+
+    <li class="pub-item">
+      <div class="pub-meta">
+        <span class="pub-year">2026</span>
+        <span class="pub-role">co-author</span>
+      </div>
+      <h3 class="pub-title">Revisiting Multizone Jet Models Applied to the Quiescent Black Hole X-Ray Binary XTE J1118+480</h3>
+      <p class="pub-authors">O. D. Clapp, <span class="pub-me">Z. Zuo</span>, et&nbsp;al.</p>
+      <p class="pub-venue">The Astrophysical Journal, <span class="pub-loc">1000, 278</span></p>
+      <div class="pub-links">
+        <a href="https://ui.adsabs.harvard.edu/abs/2026ApJ..1000..278C/abstract" class="pub-link" target="_blank" rel="noopener">ADS</a>
+        <a href="https://doi.org/10.3847/1538-4357/ae47f1" class="pub-link" target="_blank" rel="noopener">DOI</a>
+      </div>
+    </li>
+
+    <li class="pub-item">
+      <div class="pub-meta">
+        <span class="pub-year">2026</span>
+        <span class="pub-role">co-author · submitted</span>
+      </div>
+      <h3 class="pub-title">Revisiting the Claim for a Direct-Collapse Black Hole in UHZ1 at z = 10.05</h3>
+      <p class="pub-authors">F. Zou, <span class="pub-me">Z. Zuo</span>, et&nbsp;al.</p>
+      <p class="pub-venue">arXiv e-prints, <span class="pub-loc">arXiv:2603.24893</span></p>
+      <div class="pub-links">
+        <a href="https://ui.adsabs.harvard.edu/abs/2026arXiv260324893Z/abstract" class="pub-link" target="_blank" rel="noopener">ADS</a>
+        <a href="https://arxiv.org/abs/2603.24893" class="pub-link" target="_blank" rel="noopener">arXiv</a>
+      </div>
+    </li>
+
+    <li class="pub-item">
+      <div class="pub-meta">
+        <span class="pub-year">2025</span>
+        <span class="pub-role lead">first author</span>
+      </div>
+      <h3 class="pub-title">Gone with the Wind: JWST-MIRI Unveils a Strong Outflow from the Quiescent Stellar-mass Black Hole A0620&#8209;00</h3>
+      <p class="pub-authors"><span class="pub-me">Z. Zuo</span>, et&nbsp;al.</p>
+      <p class="pub-venue">The Astrophysical Journal, <span class="pub-loc">991, 157</span></p>
+      <div class="pub-links">
+        <a href="https://ui.adsabs.harvard.edu/abs/2025ApJ...991..157Z/abstract" class="pub-link" target="_blank" rel="noopener">ADS</a>
+        <a href="https://doi.org/10.3847/1538-4357/adf6b9" class="pub-link" target="_blank" rel="noopener">DOI</a>
+      </div>
+    </li>
+
+    <li class="pub-item">
+      <div class="pub-meta">
+        <span class="pub-year">2024</span>
+        <span class="pub-role lead">first author</span>
+      </div>
+      <h3 class="pub-title">The X-ray Enhancements of Radio-Loud Quasars at High Redshift: New Results at z = 4&#8211;7</h3>
+      <p class="pub-authors"><span class="pub-me">Z. Zuo</span>, et&nbsp;al.</p>
+      <p class="pub-venue">Monthly Notices of the Royal Astronomical Society, <span class="pub-loc">530, 360</span></p>
+      <div class="pub-links">
+        <a href="https://ui.adsabs.harvard.edu/abs/2024MNRAS.530..360Z/abstract" class="pub-link" target="_blank" rel="noopener">ADS</a>
+        <a href="https://doi.org/10.1093/mnras/stae656" class="pub-link" target="_blank" rel="noopener">DOI</a>
+      </div>
+    </li>
+
+  </ol>
+</section>
+
 <!-- ── Recent posts ───────────────────────────────────────────────── -->
 <section id="recent-posts">
   <div class="posts-wrap">
     <div class="section-header-row">
-      <span class="section-label">03 /</span>
+      <span class="section-label">04 /</span>
       <h2 class="section-title" style="margin:0">Recent Notes</h2>
       <div class="sec-rule"></div>
     </div>
@@ -475,7 +614,7 @@
 <!-- ── Contact ────────────────────────────────────────────────────── -->
 <section id="contact">
   <div class="section-header-row">
-    <span class="section-label">04 /</span>
+    <span class="section-label">05 /</span>
     <h2 class="section-title" style="margin:0">Contact</h2>
     <div class="sec-rule"></div>
   </div>
